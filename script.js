@@ -40,8 +40,8 @@ let hasDoubleShot, doubleShotTimerId;
 const DOUBLE_SHOT_DURATION = 10000; // Çift atış gücünün süresi (10 saniye)
 
 let playerBombCount; // Oyuncunun sahip olduğu bomba sayısı
-const MAX_BOMBS = 3; // Maksimum bomba sayısı
-let playerBombCooldown = 10000; // Bomba bekleme süresi (10 saniye)
+const MAX_BOMBS = 10; // Maksimum bomba sayısı
+let playerBombCooldown = 3000; // Bomba bekleme süresi (3 saniye)
 let lastPlayerBombTime; // Son bomba atıldığı veya kazanıldığı zaman
 
 let ultimateCharge, ultimateChargeMax, isUltimateReady; // Ulti yeteneği değişkenleri
@@ -62,9 +62,9 @@ const JUMP_POWER = 11; // Zıplama gücü
 const GRAVITY = 0.5; // Yerçekimi etkisi
 
 // Boss Tetikleme Puanları
-const DIAZ_TRIGGER_SCORE = 1000;
-const LANCE_TRIGGER_SCORE = 2500;
-const SONY_TRIGGER_SCORE = 4500;
+const DIAZ_TRIGGER_SCORE = 850;
+const LANCE_TRIGGER_SCORE = 2000;
+const SONY_TRIGGER_SCORE = 3000;
 
 // --- Yardımcı Fonksiyonlar ---
 
@@ -485,7 +485,7 @@ function updateBullets() {
             if(playerHealthBar) playerHealthBar.style.width = Math.max(0, (playerHealth / 100) * 64) + "px"; // Can barını güncelle
             
             bullet.element.remove(); enemyBullets.splice(i, 1); // Mermiyi kaldır
-            if (playerHealth <= 0) gameOver("Tommy vuruldu!"); // Can sıfırsa oyun biter
+            if (playerHealth <= 0) gameOver("Nayır nolamaz!"); // Can sıfırsa oyun biter
         }
         // Mermi ekran dışına çıktıysa sil
         if (currentBulletX < -20) { bullet.element.remove(); enemyBullets.splice(i, 1); }
@@ -566,7 +566,7 @@ function updatePizzas() {
             if (pizza.isBad) { // Kötü pizza ise can azalt
                 playerHealth -= 15; if (playerHealth < 0) playerHealth = 0;
                 player.classList.add('hit'); setTimeout(() => player.classList.remove('hit'), 200);
-                if (playerHealth <= 0) gameOver("Tommy yediği pizzadan zehirlendi!"); // Can sıfırsa oyun biter
+                if (playerHealth <= 0) gameOver("Bayat peksimet sağlığa zararlıdır dostum!"); // Can sıfırsa oyun biter
             } else { // İyi pizza ise can, puan ve ulti şarjı artır
                 playerHealth += 10; if (playerHealth > 100) playerHealth = 100;
                 score += 10; ultimateCharge += 10;
@@ -953,18 +953,18 @@ function handleBossHitByPlayerBullet(bulletElement) {
             enemyImage = 'enemy_gangster.png'; // Yeni düşman resmi
             enemyMaxCount = 4; // Yeni düşman limiti
             changeBackground('background2.png'); // Yeni arka plan
-            showMessage("Diaz'ı yendin! Ama macera devam ediyor!", false); // Geçici mesaj
+            showMessage("İlk boss gitti Alpış! Ama macera devam ediyor", false); // Geçici mesaj
             setTimeout(hideMessage, 3000);
         } else if (gameStage === 2) { // Lance yenildi
             gameStage = 3;
             enemyImage = 'enemy_cop.png'; // Yeni düşman resmi
             enemyMaxCount = 5; // Yeni düşman limiti
             changeBackground('background3.png'); // Yeni arka plan
-            showMessage("Lance de gitti! Şimdi sıra daha büyük balıkta!", false);
+            showMessage("İkinci boss da gitti, yüzüğü yok etmene az kaldı bay Alpış! Ha gayret!", false);
             setTimeout(hideMessage, 3000);
         } else if (gameStage === 3) { // Sony yenildi
             gameStage = 4; // Oyun bitiş aşaması (veya yeni bir stage olabilir)
-            gameOver("Tüm düşmanları yendin! Vice City senin!"); // Oyunu bitir
+            gameOver("En küçük insan bile geleceğin gidişatını değiştirebilir. Tebrikler bay Alpış!"); // Oyunu bitir
         }
         // Boss yenildikten sonra normal akışa dönmesi için küçük bir gecikme
         setTimeout(() => {
@@ -1223,3 +1223,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (startScreen) startScreen.style.display = 'flex';
     console.log("DOM içeriği yüklendi.");
 });
+
